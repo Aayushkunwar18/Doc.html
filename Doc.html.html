@@ -132,17 +132,14 @@
             
             <p>Please select your response:</p>
             <label>
-                <input type="radio" name="response" value="Yes, I'd love to! Chaayos sounds great!" required onclick="enableSubmitButton()"> 
+                <input type="radio" name="response" value="Yes, I'd love to! Chaayos sounds great!" required onclick="showThankYouPage()"> 
                 Yes, I'd love to! Chaayos sounds great!
             </label><br>
             <label id="sorry-text" class="float-away" onmouseover="floatAway(event)" onmouseout="resetPosition(event)">
                 <input type="radio" name="response" value="Sorry, I can't today." id="sorry-btn"> Sorry, I can't today.
             </label><br><br>
             
-            <!-- Hidden input to indicate that "Yes" was selected -->
-            <input type="hidden" name="response_sent" id="response-sent" value="No">
-
-            <button type="submit" id="submit-btn" disabled>Submit</button>
+            <button type="submit">Submit</button>
         </form>
     </div>
 
@@ -174,12 +171,6 @@
             label.style.transform = "translate(0, 0)";
         }
 
-        function enableSubmitButton() {
-            // Enable submit button when "Yes" is selected
-            document.getElementById("submit-btn").disabled = false;
-            document.getElementById("response-sent").value = "Yes"; // Mark that 'Yes' was selected
-        }
-
         // Show Thank You Page when "Yes" is clicked
         function showThankYouPage() {
             // Hide the form container
@@ -188,14 +179,6 @@
             // Show the Thank You Page
             document.getElementById('thank-you-page').style.display = 'flex';
         }
-
-        // Update form submission function
-        document.getElementById('response-form').addEventListener('submit', function(event) {
-            if (document.getElementById('response-sent').value !== 'Yes') {
-                event.preventDefault(); // Prevent form submission if "Yes" wasn't clicked
-                alert("Please select 'Yes, I'd love to! Chaayos sounds great!' before submitting.");
-            }
-        });
     </script>
 </body>
 </html>
