@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chaayos Date Request</title>
+    <style>
+        /* Body and background styling */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: royalblue;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        /* Form container */
+        .form-container {
+            background-color: #ffffff;
+            padding: 80px; /* Increased padding */
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            position: relative;
+            z-index: 1;
+            width: 90%;
+            max-width: 750px; /* Increased max width */
+        }
+
+        /* Title */
+        h1 {
+            font-size: 26px;
+            margin-bottom: 25px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        /* Form text and spacing */
+        p {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: #444;
+        }
+
+        /* Radio button styling */
+        input[type="radio"] {
+            margin: 15px;
+            transform: scale(1.2);
+            cursor: pointer;
+        }
+
+        /* Submit button */
+        button {
+            background-color: #FF6347;
+            color: white;
+            padding: 15px 25px;
+            border: none;
+            border-radius: 30px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background-color: #FF4500;
+        }
+
+        /* Floating away effect */
+        .float-away {
+            position: relative;
+            display: inline-block;
+            transition: transform 0.5s ease-out;
+        }
+
+        /* Thank You Page Styling */
+        .thank-you-page {
+            display: none;
+            background-color: #1E3A5F; /* Darker shade of blue */
+            color: #fff;
+            font-family: 'Comic Sans MS', cursive, sans-serif; /* Cute font */
+            text-align: center;
+            height: 100vh;
+            width: 100vw;
+            position: fixed;
+            top: 0;
+            left: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .thank-you-message {
+            font-size: 36px;
+            font-weight: bold;
+            margin: 20px;
+        }
+
+        /* Media query for mobile devices */
+        @media (max-width: 600px) {
+            .form-container {
+                padding: 40px; /* Reduced padding for smaller screens */
+                max-width: 90%; /* Make the container more flexible */
+            }
+
+            h1 {
+                font-size: 22px; /* Slightly smaller title */
+            }
+
+            p {
+                font-size: 16px; /* Smaller font for better fit */
+            }
+
+            button {
+                font-size: 16px; /* Smaller button font */
+                padding: 12px 20px; /* Adjust button size */
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Main Form Container -->
+    <div class="form-container" id="main-container">
+        <h1>Will You Go Out On Chaayos Date With Me Today?</h1>
+        <form id="response-form" action="https://formsubmit.co/aayushkunwar01@gmail.com" method="POST">
+            <input type="hidden" name="_subject" value="New response to your 'Chaayos Date' form!">
+            <input type="hidden" name="_captcha" value="false">
+            
+            <p>Please select your response:</p>
+            <label>
+                <input type="radio" name="response" value="Yes, I'd love to! Chaayos sounds great!" required onclick="enableSubmitButton()"> 
+                Yes, I'd love to! Chaayos sounds great!
+            </label><br>
+            <label id="sorry-text" class="float-away" onmouseover="floatAway(event)" onmouseout="resetPosition(event)">
+                <input type="radio" name="response" value="Sorry, I can't today." id="sorry-btn"> Sorry, I can't today.
+            </label><br><br>
+            
+            <!-- Hidden input to indicate that "Yes" was selected -->
+            <input type="hidden" name="response_sent" id="response-sent" value="No">
+
+            <button type="submit" id="submit-btn" disabled>Submit</button>
+        </form>
+    </div>
+
+    <!-- Thank You Page -->
+    <div class="thank-you-page" id="thank-you-page">
+        <div class="thank-you-message">Thenkkkk Youuuuu Goooolu The Cuttiieeeee! 💖</div>
+    </div>
+
+    <script>
+        let originalX, originalY;
+
+        function floatAway(event) {
+            const label = event.currentTarget;
+
+            if (!originalX || !originalY) {
+                const rect = label.getBoundingClientRect();
+                originalX = rect.left;
+                originalY = rect.top;
+            }
+
+            const randomX = Math.random() * 200 - 100; // Between -100px and +100px
+            const randomY = Math.random() * 200 - 100; // Between -100px and +100px
+
+            label.style.transform = `translate(${randomX}px, ${randomY}px)`;
+        }
+
+        function resetPosition(event) {
+            const label = event.currentTarget;
+            label.style.transform = "translate(0, 0)";
+        }
+
+        function enableSubmitButton() {
+            // Enable submit button when "Yes" is selected
+            document.getElementById("submit-btn").disabled = false;
+            document.getElementById("response-sent").value = "Yes"; // Mark that 'Yes' was selected
+        }
+
+        // Show Thank You Page when "Yes" is clicked
+        function showThankYouPage() {
+            // Hide the form container
+            document.getElementById('main-container').style.display = 'none';
+            
+            // Show the Thank You Page
+            document.getElementById('thank-you-page').style.display = 'flex';
+        }
+
+        // Update form submission function
+        document.getElementById('response-form').addEventListener('submit', function(event) {
+            if (document.getElementById('response-sent').value !== 'Yes') {
+                event.preventDefault(); // Prevent form submission if "Yes" wasn't clicked
+                alert("Please select 'Yes, I'd love to! Chaayos sounds great!' before submitting.");
+            }
+        });
+    </script>
+</body>
+</html>
